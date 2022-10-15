@@ -42,7 +42,7 @@ function imageFetcher(finalImageName) {
         var imageBitmap;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fs_1.promises.readFile(__dirname + "\\modified\\" + finalImageName)];
+                case 0: return [4 /*yield*/, fs_1.promises.readFile(__dirname + '\\modified\\' + finalImageName)];
                 case 1:
                     imageBitmap = _a.sent();
                     return [2 /*return*/, imageBitmap];

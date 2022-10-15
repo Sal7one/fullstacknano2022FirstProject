@@ -5,7 +5,7 @@ var queryValidator = function (req, res, next) {
     if (userQuery.filename == undefined ||
         userQuery.width == undefined ||
         userQuery.height == undefined) {
-        res.end("Missing data");
+        res.end('Missing data');
     }
     next();
 };

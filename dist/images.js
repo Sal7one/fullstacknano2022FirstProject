@@ -13,11 +13,11 @@ var imageHandler = function (req, res, next) {
     var height = parseInt(heightParam);
     var finalImageName = "".concat(filename).concat(width).concat(height, ".jpg");
     req.query.finalImageName = finalImageName;
-    console.log("checking in " + __dirname);
-    fs_1.promises.stat(__dirname + "\\modified\\" + finalImageName)
+    console.log('checking in ' + __dirname);
+    fs_1.promises.stat(__dirname + '\\modified\\' + finalImageName)
         .then(function () {
-        console.log("We Manupliated this image before");
-        req.query.manipulateImage = "false";
+        console.log('We Manupliated this image before');
+        req.query.manipulateImage = 'false';
         next();
     })
         .catch(function () {
