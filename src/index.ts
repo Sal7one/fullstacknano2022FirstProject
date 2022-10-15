@@ -1,40 +1,25 @@
-import express from 'express';
-import fileSystem from 'fs';
-import sharp  from 'sharp';
+import express from 'express'
+import imageHandlerMW from './images'
+import queryValidator from './validator'
+import imageManipulator from './imageManipulator'
+import imageFetcher from './imageFetcher'
 
-const app = express();
-const port = 3000;
+const app = express()
 
-app.get('/image', (req, res) => {
-    let filename = req.query.filename;
+const port = 3000
 
-    if(filename){
-        let imageURL = "src\\images\\" + filename + ".jpg";
-        let widthParam: string = req.query.width as string
-        let heightParam: string = req.query.height as string
-        let width: number = parseInt(widthParam)
-        let height: number = parseInt(heightParam)
+app.get(
+  '/image',
+  [queryValidator, imageHandlerMW, imageManipulator],
+  (req: express.Request, res: express.Response) => {
+    let finalImageName = req.query.finalImageName as string
+    imageFetcher(finalImageName).then((image) => {
+      res.writeHead(200, { 'Content-Type': 'image/jpeg' })
+      res.end(image)
+    })
+  }
+)
 
-        let finalImageName = `${filename}${widthParam}${height}.png`
-        sharp(imageURL)
-            .resize(width, height)
-            .toFile(finalImageName, (err, info) => {
-                fileSystem.readFile(finalImageName, function(err, data) {
-                    if (err) throw err
-                      res.writeHead(200, {'Content-Type': 'image/jpeg'})
-                      res.end(data) 
-                  })
-           });
-    }
-
-    // 1 - Change image size 
-         // Check if processed image already exsitis: ksa125125.png
-        // a: use file system to get the image by name
-        // b: change the image size
-        // c: save the image in file system with the new size and name!!!
-    // 3 - Responed with new image
-});
-
-app.listen(port, ()=> {
-    console.log(`server started at localhost:${port}`)
-   });
+app.listen(port, () => {
+  console.log(`server started at localhost:${port}`)
+})
