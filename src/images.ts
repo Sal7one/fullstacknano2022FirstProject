@@ -4,9 +4,14 @@ import { promises as fs } from 'fs';
 const imageHandler = (
   req: express.Request,
   res: express.Response,
-  next: Function
+  next: Next
 ): void => {
-  // User Query
+  if(req.query.err){
+    next();
+  }else{
+
+
+    // User Query
   const userQuery = req.query;
 
   // User Data
@@ -30,6 +35,7 @@ const imageHandler = (
     .catch(() => {
       next();
     });
+  }
 };
 
 export default imageHandler;

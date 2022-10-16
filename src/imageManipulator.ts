@@ -6,8 +6,12 @@ import fs from 'fs';
 const imageManipulator = (
   req: express.Request,
   res: express.Response,
-  next: Function
+  next: Next
 ): void => {
+  if(req.query.err){
+    next();
+  }else{
+
   if (req.query.manipulateImage == 'false') next();
 
   // User Query
@@ -24,7 +28,12 @@ const imageManipulator = (
 
   // Image name in the file system
   const imageURL = 'src\\images\\' + filename + '.jpg';
-
+  
+  if (!fs.existsSync(imageURL)) {
+    req.query.err = 'Image does not exist';
+    next();
+    }
+  
   // image name after we finish
   const imageFileName = req.query.finalImageName as string;
 
@@ -36,6 +45,7 @@ const imageManipulator = (
     .toFile(dir + '\\' + imageFileName, (err, info) => {
       next();
     });
+  }
 };
 
 export default imageManipulator;

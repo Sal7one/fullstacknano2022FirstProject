@@ -3,7 +3,7 @@ import express from 'express';
 const queryValidator = (
   req: express.Request,
   res: express.Response,
-  next: Function
+  next: Next
 ): void => {
   const userQuery = req.query;
   if (
@@ -18,7 +18,10 @@ const queryValidator = (
   const width: number = parseInt(widthParam);
   const height: number = parseInt(heightParam);
 
-  if (isNaN(width) || isNaN(width)) res.end('width or height is invalid');
+  if (isNaN(width) || isNaN(height)){
+    req.query.err = 'width or height is invalid';
+    next();
+  } 
   next();
 };
 
