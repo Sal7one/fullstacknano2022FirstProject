@@ -1,5 +1,5 @@
-import express from 'express'
-import { promises as fs } from 'fs'
+import express from 'express';
+import { promises as fs } from 'fs';
 
 const imageHandler = (
   req: express.Request,
@@ -7,17 +7,18 @@ const imageHandler = (
   next: Function
 ): void => {
   // User Query
-  let userQuery = req.query;
+  const userQuery = req.query;
 
   // User Data
-  let filename = userQuery.filename;
-  let widthParam: string = req.query.width as string;
-  let heightParam: string = req.query.height as string;
+  const filename = userQuery.filename;
+  const widthParam: string = req.query.width as string;
+  const heightParam: string = req.query.height as string;
 
   // Use the data
-  let width: number = parseInt(widthParam);
-  let height: number = parseInt(heightParam);
-  let finalImageName = `${filename}${width}${height}.jpg`;
+  const width: number = parseInt(widthParam);
+  const height: number = parseInt(heightParam);
+
+  const finalImageName = `${filename}${width}${height}.jpg`;
 
   req.query.finalImageName = finalImageName;
 
@@ -28,7 +29,7 @@ const imageHandler = (
     })
     .catch(() => {
       next();
-    })
-}
+    });
+};
 
-export default imageHandler
+export default imageHandler;

@@ -1,9 +1,9 @@
-import { promises as fs } from 'fs'
+import { promises as fs } from 'fs';
 
-async function imageFetcher(finalImageName: String): Promise<Buffer> {
-  let imagePath = __dirname + '\\modified\\' + finalImageName;
-  let imageBitmap = await fs.readFile(imagePath);
+async function imageFetcher(finalImageName: string): Promise<Buffer> {
+  const imagePath = __dirname + '\\modified\\' + finalImageName;
+  const imageBitmap = await fs.readFile(imagePath);
   return imageBitmap;
 }
 
-export default imageFetcher
+export default imageFetcher;

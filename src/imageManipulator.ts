@@ -1,7 +1,7 @@
-import express from 'express'
-import sharp from 'sharp'
-import path from 'path'
-import fs from 'fs'
+import express from 'express';
+import sharp from 'sharp';
+import path from 'path';
+import fs from 'fs';
 
 const imageManipulator = (
   req: express.Request,
@@ -11,22 +11,22 @@ const imageManipulator = (
   if (req.query.manipulateImage == 'false') next();
 
   // User Query
-  let userQuery = req.query;
+  const userQuery = req.query;
 
   // User Data
-  let filename = userQuery.filename;
-  let widthParam: string = req.query.width as string;
-  let heightParam: string = req.query.height as string;
+  const filename = userQuery.filename;
+  const widthParam: string = req.query.width as string;
+  const heightParam: string = req.query.height as string;
 
   // Use the data
-  let width: number = parseInt(widthParam);
-  let height: number = parseInt(heightParam);
+  const width: number = parseInt(widthParam);
+  const height: number = parseInt(heightParam);
 
   // Image name in the file system
-  let imageURL = 'src\\images\\' + filename + '.jpg';
+  const imageURL = 'src\\images\\' + filename + '.jpg';
 
   // image name after we finish
-  let imageFileName = req.query.finalImageName as string;
+  const imageFileName = req.query.finalImageName as string;
 
   const dir = path.resolve(path.join(__dirname, 'modified'));
   if (!fs.existsSync(dir)) fs.mkdirSync(dir);
@@ -36,6 +36,6 @@ const imageManipulator = (
     .toFile(dir + '\\' + imageFileName, (err, info) => {
       next();
     });
-}
+};
 
-export default imageManipulator
+export default imageManipulator;
