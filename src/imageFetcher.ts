@@ -1,10 +1,9 @@
 import { promises as fs } from 'fs'
 
 async function imageFetcher(finalImageName: String): Promise<Buffer> {
-  let imageBitmap = await fs.readFile(
-    __dirname + '\\modified\\' + finalImageName
-  )
-  return imageBitmap
+  let imagePath = __dirname + '\\modified\\' + finalImageName;
+  let imageBitmap = await fs.readFile(imagePath);
+  return imageBitmap;
 }
 
 export default imageFetcher

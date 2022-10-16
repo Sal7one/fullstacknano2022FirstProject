@@ -4,22 +4,22 @@ import queryValidator from './validator'
 import imageManipulator from './imageManipulator'
 import imageFetcher from './imageFetcher'
 
-const app = express()
+const app = express();
 
-const port = 3000
+const port = 3000;
 
-app.get(
-  '/image',
-  [queryValidator, imageHandlerMW, imageManipulator],
+const imagesMiddleWare = [queryValidator, imageHandlerMW, imageManipulator];
+app.get('/image', imagesMiddleWare,
   (req: express.Request, res: express.Response) => {
-    let finalImageName = req.query.finalImageName as string
+    let finalImageName = req.query.finalImageName as string;
+
     imageFetcher(finalImageName).then((image) => {
-      res.writeHead(200, { 'Content-Type': 'image/jpeg' })
-      res.end(image)
+      res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+      res.end(image);
     })
   }
 )
 
 app.listen(port, () => {
-  console.log(`server started at localhost:${port}`)
+  console.log(`server started at localhost:${port}`);
 })

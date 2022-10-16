@@ -5,15 +5,15 @@ const queryValidator = (
   res: express.Response,
   next: Function
 ): void => {
-  const userQuery = req.query
+  const userQuery = req.query;
   if (
     userQuery.filename == undefined ||
     userQuery.width == undefined ||
     userQuery.height == undefined
   ) {
-    res.end('Missing data')
+    res.end('Missing data');
   }
-  next()
+  next();
 }
 
 export default queryValidator
