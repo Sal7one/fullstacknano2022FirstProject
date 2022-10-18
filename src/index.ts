@@ -1,13 +1,13 @@
 import express from 'express';
-import imageHandler from './imageHandler';
+import imageRepoistory from './imageRepoistory';
 import queryValidator from './validator';
-import imageManipulator from './imageManipulator';
-import imageFetcher from './imageFetcher';
+import imageManipulator from './imageResizer';
+import imageFetcher from './fileFetcher';
 const app = express();
 
 const port = 3000;
 
-const imagesMiddleWare = [queryValidator, imageHandler, imageManipulator];
+const imagesMiddleWare = [queryValidator, imageRepoistory, imageManipulator];
 app.get(
   '/resizer',
   imagesMiddleWare,

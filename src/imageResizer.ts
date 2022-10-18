@@ -3,14 +3,14 @@ import sharp from 'sharp';
 import path from 'path';
 import fs from 'fs';
 
-const imageManipulator = (
+const imageResizer = (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
 ): void => {
   const query = req.query;
   const imageName = query.filename;
-  const imagePath = 'src\\images\\' + imageName + '.jpg';
+  const imagePath = 'src\\assets\\' + imageName + '.jpg';
 
   const height: number = parseInt(req.query.height as string);
   const width: number = parseInt(req.query.width as string);
@@ -28,4 +28,4 @@ const imageManipulator = (
     });
 };
 
-export default imageManipulator;
+export default imageResizer;
