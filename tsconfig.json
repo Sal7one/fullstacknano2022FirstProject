@@ -10,6 +10,7 @@
     "outDir": "./dist", 
     "noImplicitAny": true                  
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "spec", "./dist"]
+  "include": ["src", "tests"],
+  "exclude": ["node_modules", "./dist"],
+  "compileOnSave": true
 }

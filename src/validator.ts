@@ -1,27 +1,44 @@
 import express from 'express';
+import { promises as fs } from 'fs';
+import path from 'path';
 
-const queryValidator = (
+const queryValidator = async (
   req: express.Request,
   res: express.Response,
-  next: Next
-): void => {
-  const userQuery = req.query;
-  if (
-    userQuery.filename == undefined ||
-    userQuery.width == undefined ||
-    userQuery.height == undefined
-  ) {
-    res.end('Missing data');
-  }
-  const widthParam: string = req.query.width as string;
-  const heightParam: string = req.query.height as string;
-  const width: number = parseInt(widthParam);
-  const height: number = parseInt(heightParam);
+  next: express.NextFunction
+): Promise<void> => {
 
-  if (isNaN(width) || isNaN(height)){
-    req.query.err = 'width or height is invalid';
-    next();
-  } 
+  const query = req.query;
+  const height: number = parseInt(req.query.height as string);
+  const width: number = parseInt(req.query.width as string);
+  const jsonErorr = { success: false, message: '' };
+
+  if (query.filename != undefined) {
+    let folderPath = path.resolve("src\\images");
+    const fileList = await fs.readdir(folderPath);
+
+      if (!fileList.includes(`${query.filename}.jpg`)) {
+        jsonErorr.message = 'Image does not exist';
+        res.status(400).json(jsonErorr);
+        return;
+      }
+  } else {
+    jsonErorr.message = 'Please send an Image name';
+    res.status(400).json(jsonErorr);
+    return;
+  }
+
+  if (isNaN(height)) {
+    jsonErorr.message = 'height is invalid';
+    res.status(400).json(jsonErorr);
+    return;
+  }
+  if (isNaN(width)) {
+    jsonErorr.message = 'width is invalid';
+    res.status(400).json(jsonErorr);
+    return;
+  }
+
   next();
 };
 

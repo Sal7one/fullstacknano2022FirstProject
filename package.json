@@ -1,10 +1,10 @@
 {
-  "name": "banan_image_processor",
+  "name": "image_resizer",
   "version": "1.0.0",
-  "description": "",
+  "description": "udacity image resizer by Sal7one",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon dist/index.js",
+    "start": "nodemon dist/src/index.js",
     "build": "npx tsc",
     "lint": "eslint --ignore-path .eslintignore --ext .ts .",
     "prettier": "prettier --config .prettierrc src/*.ts --write",

@@ -1,36 +1,26 @@
 import express from 'express';
-import imageHandlerMW from './images';
+import imageHandler from './imageHandler';
 import queryValidator from './validator';
 import imageManipulator from './imageManipulator';
 import imageFetcher from './imageFetcher';
-
 const app = express();
 
 const port = 3000;
 
-const imagesMiddleWare = [queryValidator, imageHandlerMW, imageManipulator];
+const imagesMiddleWare = [queryValidator, imageHandler, imageManipulator];
 app.get(
-  '/image',
+  '/resizer',
   imagesMiddleWare,
   (req: express.Request, res: express.Response) => {
-    
-    if(req.query.err){
-      res.writeHead(400);
-      res.end(req.query.err);
-    }else{
-      const finalImageName = req.query.finalImageName as string;
-
-      imageFetcher(finalImageName).then((image) => {
-        res.writeHead(200, { 'Content-Type': 'image/jpeg' });
-        res.end(image);
-      });
-    }
+    const imageName = req.query.outputImageName as string;
+    imageFetcher(imageName).then(imgBuffer =>{
+      res.status(200).end(imgBuffer);
+    })
   }
 );
 
 app.listen(port, () => {
-  console.log(`server started at localhost:${port}`);
+  console.log(`localhost:${port} end point is resizer`);
 });
-
 
 export default app;
