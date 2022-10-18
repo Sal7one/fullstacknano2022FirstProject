@@ -20,7 +20,7 @@ app.get(
 );
 
 const jsonErorr = { success: false, message: '404 Not Found' };
-app.get('*', (req, res) => {
+app.get('*', (req: express.Request, res: express.Response) => {
   res.status(404).json(jsonErorr);
 });
 
