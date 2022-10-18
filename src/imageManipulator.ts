@@ -8,24 +8,24 @@ const imageManipulator = (
   res: express.Response,
   next: express.NextFunction
 ): void => {
-    const query = req.query;
-    const imageName = query.filename;
-    const imagePath = 'src\\images\\' + imageName + '.jpg';
+  const query = req.query;
+  const imageName = query.filename;
+  const imagePath = 'src\\images\\' + imageName + '.jpg';
 
-    const height: number = parseInt(req.query.height as string);
-    const width: number = parseInt(req.query.width as string);    
+  const height: number = parseInt(req.query.height as string);
+  const width: number = parseInt(req.query.width as string);
 
-    const modifiedImageDir = path.resolve(path.join(__dirname, 'modified'));
-    if (!fs.existsSync(modifiedImageDir)) fs.mkdirSync(modifiedImageDir);
-    
-    const outputImageName = req.query.outputImageName as string;
-    const outputImagePath = `${modifiedImageDir}\\${outputImageName}`;
-    sharp(imagePath)
-      .resize(width, height)
-      .toFile(outputImagePath, (err, info) => {
-        if(err) throw Error("Could not modify image: " + err)
-        next();
-      });
+  const modifiedImageDir = path.resolve(path.join(__dirname, 'modified'));
+  if (!fs.existsSync(modifiedImageDir)) fs.mkdirSync(modifiedImageDir);
+
+  const outputImageName = req.query.outputImageName as string;
+  const outputImagePath = `${modifiedImageDir}\\${outputImageName}`;
+  sharp(imagePath)
+    .resize(width, height)
+    .toFile(outputImagePath, (err, info) => {
+      if (err) throw Error('Could not modify image: ' + err);
+      next();
+    });
 };
 
 export default imageManipulator;

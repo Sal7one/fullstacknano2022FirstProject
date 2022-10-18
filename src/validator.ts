@@ -7,21 +7,20 @@ const queryValidator = async (
   res: express.Response,
   next: express.NextFunction
 ): Promise<void> => {
-
   const query = req.query;
   const height: number = parseInt(req.query.height as string);
   const width: number = parseInt(req.query.width as string);
   const jsonErorr = { success: false, message: '' };
 
   if (query.filename != undefined) {
-    let folderPath = path.resolve("src\\images");
+    const folderPath = path.resolve('src\\images');
     const fileList = await fs.readdir(folderPath);
 
-      if (!fileList.includes(`${query.filename}.jpg`)) {
-        jsonErorr.message = 'Image does not exist';
-        res.status(400).json(jsonErorr);
-        return;
-      }
+    if (!fileList.includes(`${query.filename}.jpg`)) {
+      jsonErorr.message = 'Image does not exist';
+      res.status(400).json(jsonErorr);
+      return;
+    }
   } else {
     jsonErorr.message = 'Please send an Image name';
     res.status(400).json(jsonErorr);

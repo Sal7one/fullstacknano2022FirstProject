@@ -8,7 +8,6 @@ const imageHandler = (
   res: express.Response,
   next: express.NextFunction
 ): void => {
-
   const query = req.query;
   const filename = query.filename;
 
@@ -18,7 +17,7 @@ const imageHandler = (
   const finalImageName = `${filename}${width}${height}.jpg`;
   req.query.outputImageName = finalImageName;
 
-  let modifiedImagesPath = path.resolve("modified");
+  const modifiedImagesPath = path.resolve('modified');
   const modifiedImagePath = `${modifiedImagesPath}\\${finalImageName}`;
 
   fs.stat(modifiedImagePath)

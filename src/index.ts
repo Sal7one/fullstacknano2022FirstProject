@@ -13,9 +13,9 @@ app.get(
   imagesMiddleWare,
   (req: express.Request, res: express.Response) => {
     const imageName = req.query.outputImageName as string;
-    imageFetcher(imageName).then(imgBuffer =>{
+    imageFetcher(imageName).then((imgBuffer) => {
       res.status(200).end(imgBuffer);
-    })
+    });
   }
 );
 
