@@ -19,6 +19,11 @@ app.get(
   }
 );
 
+const jsonErorr = { success: false, message: '404 Not Found' };
+app.get('*', (req, res) => {
+  res.status(404).json(jsonErorr);
+});
+
 app.listen(port, () => {
   console.log(`localhost:${port} end point is resizer`);
 });

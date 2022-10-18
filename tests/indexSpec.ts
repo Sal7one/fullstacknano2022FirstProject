@@ -26,4 +26,11 @@ const request = supertest(app);
         expect(response.status).toEqual(200);
     });
 });
+
+describe('404', (): void => {
+    it('Response status 404 should be returned ', async (): Promise<void> => {
+        const response = await request.get(`/randomPage`);
+        expect(response.status).toEqual(404);
+    });
+});
 });
