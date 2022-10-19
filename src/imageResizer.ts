@@ -20,12 +20,28 @@ const imageResizer = (
 
   const outputImageName = req.query.outputImageName as string;
   const outputImagePath = `${modifiedImageDir}\\${outputImageName}`;
-  sharp(imagePath)
-    .resize(width, height)
-    .toFile(outputImagePath, (err, info) => {
-      if (err) throw Error('Could not modify image: ' + err);
+
+  resizeImage(imagePath, height, width, outputImagePath).then(
+    ()=>{
       next();
-    });
+    }
+  ).catch((err) =>{
+    const jsonErorr = { success: false, message: "Error resizing image", "details": `${err}` };
+    res.status(400).json(jsonErorr);
+  })
+
 };
 
-export default imageResizer;
+async function resizeImage(imagePath: string, width: number,
+   height: number, outputImagePath : string) : Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+     sharp(imagePath)
+      .resize(height, width)
+      .toFile(outputImagePath, (err, info) => {
+        if (err) reject(err);
+          resolve();
+      });
+    });
+}
+
+export {imageResizer, resizeImage};

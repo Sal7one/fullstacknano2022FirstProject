@@ -27,12 +27,12 @@ const queryValidator = async (
     return;
   }
 
-  if (isNaN(height)) {
+  if (isNaN(height) || height < 0) {
     jsonErorr.message = 'height is invalid';
     res.status(400).json(jsonErorr);
     return;
   }
-  if (isNaN(width)) {
+  if (isNaN(width) || width < 0) {
     jsonErorr.message = 'width is invalid';
     res.status(400).json(jsonErorr);
     return;

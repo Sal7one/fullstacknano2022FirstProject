@@ -1,5 +1,7 @@
 import supertest from "supertest";
 import app from "../src/index";
+import path from 'path';
+import {resizeImage} from "../src/imageResizer";
 import {SpecReporter} from "jasmine-spec-reporter";
 
 jasmine.getEnv().clearReporters();
@@ -10,7 +12,35 @@ jasmine.getEnv().addReporter(
     },
   })
 );
+
 const request = supertest(app);
+
+
+describe("Image Resizer isolated", (): void => {
+  const currentDir = path.resolve(path.join(__dirname,".."));
+
+  it("Valid Image Resize",  async (): Promise<void> => {
+    const corretImageName: string = "fjord";
+    const testImagePath : string =  'src\\assets\\' + corretImageName + '.jpg';
+    const testWidth : number = 1250;
+    const testHeight : number = 50;
+    const testOutputPath : string = currentDir +`\\src\\modified\\${corretImageName}${testHeight}${testWidth}.jpg`;
+    await expectAsync(resizeImage(testImagePath, testWidth, testHeight, testOutputPath))
+    .not.toBeRejectedWithError();
+  });
+  
+ it("invalid Image Resize", async (): Promise<void> => {
+      const badImageName: string = "hello";
+      const testImagePath : string =  'src\\assets\\' + badImageName + '.jpg';
+      const testWidth : number = -1;
+      const testHeight : number = 55;
+      const testOutputPath : string = currentDir +`\\src\\modified\\${badImageName}${testHeight}${testWidth}.jpg`;
+
+       await expectAsync(resizeImage(testImagePath, testWidth, testHeight, testOutputPath))
+       .toBeRejectedWithError();
+    });
+
+    });
 
 describe("Invalid parameters", (): void => {
   it("Response status 400 should be returned when sending bad width", async (): Promise<void> => {
@@ -26,6 +56,21 @@ describe("Invalid parameters", (): void => {
     );
     expect(response.status).toEqual(400);
   });
+
+  it("Response status 400 should be returned when sending negative width", async (): Promise<void> => {
+    const response = await request.get(
+      `/resizer?filename=fjord&height=15&width=-855`
+    );
+    expect(response.status).toEqual(400);
+  });
+  
+  it("Response status 400 should be returned when sending negative height", async (): Promise<void> => {
+    const response = await request.get(
+      `/resizer?filename=fjord&height=-15&width=124`
+    );
+    expect(response.status).toEqual(400);
+  });
+
   it("Response status 400 should be returned when sending a radom filename ", async (): Promise<void> => {
     const response = await request.get(
       `/resizer?filename=mynewimage&height=123&width=124`
@@ -34,7 +79,7 @@ describe("Invalid parameters", (): void => {
   });
 });
 
-describe("Correct Request", (): void => {
+describe("Correct Request", (): void => { 
   it("Response status 200 should be returned ", async (): Promise<void> => {
     const response = await request.get(
       `/resizer?filename=fjord&height=50&width=255`
