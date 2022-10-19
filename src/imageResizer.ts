@@ -10,7 +10,7 @@ const imageResizer = (
 ): void => {
   const query = req.query;
   const imageName = query.filename;
-  const imagePath = 'src\\assets\\' + imageName + '.jpg';
+  const imagePath = path.join("src","assets",  imageName + '.jpg');
 
   const height: number = parseInt(req.query.height as string);
   const width: number = parseInt(req.query.width as string);
@@ -19,7 +19,7 @@ const imageResizer = (
   if (!fs.existsSync(modifiedImageDir)) fs.mkdirSync(modifiedImageDir);
 
   const outputImageName = req.query.outputImageName as string;
-  const outputImagePath = `${modifiedImageDir}\\${outputImageName}`;
+  const outputImagePath = path.join(modifiedImageDir, outputImageName);
 
   resizeImage(imagePath, height, width, outputImagePath)
     .then(() => {

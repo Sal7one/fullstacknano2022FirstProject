@@ -13,7 +13,7 @@ const queryValidator = async (
   const jsonErorr = { success: false, message: '' };
 
   if (query.filename != undefined) {
-    const folderPath = path.resolve('src\\assets');
+    const folderPath = path.resolve(path.join("src", "assets"));
     const fileList = await fs.readdir(folderPath);
 
     if (!fileList.includes(`${query.filename}.jpg`)) {

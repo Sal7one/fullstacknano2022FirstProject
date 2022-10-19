@@ -18,7 +18,7 @@ const imageRepoistory = (
   req.query.outputImageName = modifiedImageName;
 
   const modifiedImagesPath = path.resolve('modified');
-  const modifiedImagePath = `${modifiedImagesPath}\\${modifiedImageName}`;
+  const modifiedImagePath = path.join(modifiedImagesPath, modifiedImageName);
 
   fs.stat(modifiedImagePath)
     .then(() => {
