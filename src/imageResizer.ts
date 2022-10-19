@@ -21,27 +21,34 @@ const imageResizer = (
   const outputImageName = req.query.outputImageName as string;
   const outputImagePath = `${modifiedImageDir}\\${outputImageName}`;
 
-  resizeImage(imagePath, height, width, outputImagePath).then(
-    ()=>{
+  resizeImage(imagePath, height, width, outputImagePath)
+    .then(() => {
       next();
-    }
-  ).catch((err) =>{
-    const jsonErorr = { success: false, message: "Error resizing image", "details": `${err}` };
-    res.status(400).json(jsonErorr);
-  })
-
+    })
+    .catch((err) => {
+      const jsonErorr = {
+        success: false,
+        message: 'Error resizing image',
+        details: `${err}`
+      };
+      res.status(400).json(jsonErorr);
+    });
 };
 
-async function resizeImage(imagePath: string, width: number,
-   height: number, outputImagePath : string) : Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-     sharp(imagePath)
+async function resizeImage(
+  imagePath: string,
+  width: number,
+  height: number,
+  outputImagePath: string
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    sharp(imagePath)
       .resize(height, width)
       .toFile(outputImagePath, (err, info) => {
         if (err) reject(err);
-          resolve();
+        resolve();
       });
-    });
+  });
 }
 
-export {imageResizer, resizeImage};
+export { imageResizer, resizeImage };

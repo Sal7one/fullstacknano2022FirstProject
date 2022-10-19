@@ -1,7 +1,7 @@
 import express from 'express';
 import imageRepoistory from './imageRepoistory';
 import queryValidator from './validator';
-import {imageResizer} from './imageResizer';
+import { imageResizer } from './imageResizer';
 import imageFetcher from './fileFetcher';
 const app = express();
 
