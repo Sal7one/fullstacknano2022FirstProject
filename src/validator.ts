@@ -29,12 +29,12 @@ const queryValidator = async (
     return;
   }
 
-  if (!isAllDigits(widthParam) || height < 0) {
+  if (!isAllDigits(heightParam) || height < 0) {
     jsonErorr.message = 'height is invalid';
     res.status(400).json(jsonErorr);
     return;
   }
-  if (!isAllDigits(heightParam) || width < 0) {
+  if (!isAllDigits(widthParam) || width < 0) {
     jsonErorr.message = 'width is invalid';
     res.status(400).json(jsonErorr);
     return;
