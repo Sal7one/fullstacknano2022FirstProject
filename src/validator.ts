@@ -8,10 +8,6 @@ const queryValidator = async (
   next: express.NextFunction
 ): Promise<void> => {
   const query = req.query;
-  const widthParam :string = req.query.width as string
-  const heightParam :string = req.query.height as string
-  const height: number = parseInt(heightParam);
-  const width: number = parseInt(widthParam);
   const jsonErorr = { success: false, message: '' };
 
   if (query.filename != undefined) {
@@ -29,6 +25,11 @@ const queryValidator = async (
     return;
   }
 
+  const widthParam: string = req.query.width as string;
+  const heightParam: string = req.query.height as string;
+  const height: number = parseInt(heightParam);
+  const width: number = parseInt(widthParam);
+
   if (!isAllDigits(heightParam) || height < 0) {
     jsonErorr.message = 'height is invalid';
     res.status(400).json(jsonErorr);
@@ -43,6 +44,8 @@ const queryValidator = async (
   next();
 };
 
-function isAllDigits(testString: string) : boolean {return /^\d+$/.test(testString)};
+function isAllDigits(testString: string): boolean {
+  return /^\d+$/.test(testString);
+}
 
 export default queryValidator;
