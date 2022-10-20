@@ -17,26 +17,25 @@ const request = supertest(app);
 
 
 describe("Image Resizer isolated", (): void => {
-  const currentDir = path.resolve(path.join(__dirname,".."));
 
   it("Valid Image Resize",  async (): Promise<void> => {
     const corretImageName = "fjord";
-    const testImagePath : string =  path.join("src","assets", corretImageName + ".jpg");
+    const testImagePath : string =  path.join("assets", corretImageName + ".jpg");
     const testWidth  = 150;
     const testHeight  = 560;
-    const testOutputPath : string =  path.join(currentDir,"src", "modified",`${corretImageName}${testHeight}${testWidth}.jpg`);
-    await expectAsync(resizeImage(testImagePath, testWidth, testHeight, testOutputPath))
+    const testoutputImageName =  `${corretImageName}${testHeight}${testWidth}.jpg`;
+    await expectAsync(resizeImage(testImagePath, testWidth, testHeight, testoutputImageName))
     .not.toBeRejectedWithError();
   });
   
  it("invalid Image Resize", async (): Promise<void> => {
       const badImageName = "hello";
-      const testImagePath : string =  path.join("src","assets", badImageName + ".jpg");
+      const testImagePath : string =  path.join("assets", badImageName + ".jpg");
       const testWidth  = -1;
       const testHeight  = 55;
-      const testOutputPath : string =  path.join(currentDir,"src", "modified",`${badImageName}${testHeight}${testWidth}.jpg`);
+      const testoutputImageName  =  `${badImageName}${testHeight}${testWidth}.jpg`;
       
-      await expectAsync(resizeImage(testImagePath, testWidth, testHeight, testOutputPath))
+      await expectAsync(resizeImage(testImagePath, testWidth, testHeight, testoutputImageName))
        .toBeRejectedWithError();
     });
 

@@ -10,18 +10,14 @@ const imageResizer = (
 ): void => {
   const query = req.query;
   const imageName = query.filename;
-  const imagePath = path.join('src', 'assets', imageName + '.jpg');
+  const imagePath = path.join('assets', imageName + '.jpg');
 
   const height: number = parseInt(req.query.height as string);
   const width: number = parseInt(req.query.width as string);
 
-  const modifiedImageDir = path.resolve(path.join(__dirname, 'modified'));
-  if (!fs.existsSync(modifiedImageDir)) fs.mkdirSync(modifiedImageDir);
-
   const outputImageName = req.query.outputImageName as string;
-  const outputImagePath = path.join(modifiedImageDir, outputImageName);
 
-  resizeImage(imagePath, height, width, outputImagePath)
+  resizeImage(imagePath, height, width, outputImageName)
     .then(() => {
       next();
     })
@@ -39,12 +35,15 @@ async function resizeImage(
   imagePath: string,
   width: number,
   height: number,
-  outputImagePath: string
+  outputImageName: string
 ): Promise<void> {
+  const outputDir = path.resolve(path.join(__dirname, 'modified'));
+  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir);
+
   return new Promise<void>((resolve, reject) => {
     sharp(imagePath)
       .resize(height, width)
-      .toFile(outputImagePath, (err, info) => {
+      .toFile(path.join(outputDir, outputImageName), (err, info) => {
         if (err) reject(err);
         resolve();
       });
